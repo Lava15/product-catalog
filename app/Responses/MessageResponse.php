@@ -9,10 +9,11 @@ use Illuminate\Contracts\Support\Responsable;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CollectionResponse implements Responsable
+class MessageResponse implements Responsable
 {
     public function __construct(
-        private readonly ResourceCollection $data,
+        private readonly string $message,
+        private readonly mixed $data,
         private int|Response $status = Response::HTTP_OK,
     ) {
         
@@ -20,6 +21,7 @@ class CollectionResponse implements Responsable
     public function toResponse($request): JsonResponse
     {
         return new JsonResponse([
+            'message' => $this->message,
             'data' => $this->data,
             'status' => $this->status,
         ]);
