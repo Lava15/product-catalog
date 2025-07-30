@@ -5,16 +5,22 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Responses\CollectionResponse;
 use App\Http\Requests\CategoryRequest;
+use App\Repositories\CategoryRepository;
 
 class CategoryController extends Controller
 {
+    public function __construct(
+        private readonly CategoryRepository $categoryRepository
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): CollectionResponse
     {
-        //
+        return $this->categoryRepository->getAllCategories();
     }
 
     /**

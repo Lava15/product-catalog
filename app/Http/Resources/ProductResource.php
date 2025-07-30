@@ -26,7 +26,7 @@ class ProductResource extends JsonResource
             ],
             'relationships' => [
                 'category' => CategoryResource::make(
-                    parametrs: $this->whenLoaded(relationship: 'category')
+                      $this->whenLoaded(relationship: 'category')
                 ),
             ],
         ];
