@@ -12,7 +12,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 class CollectionResponse implements Responsable
 {
     public function __construct(
-        private readonly ResourceCollection $data,
+        private readonly mixed $data,
         private int|Response $status = Response::HTTP_OK,
     ) {
         

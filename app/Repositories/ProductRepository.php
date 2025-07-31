@@ -18,6 +18,10 @@ class ProductRepository
             data: ProductResource::collection(Product::query()->paginate(5)),
             status: Response::HTTP_OK
         );
-        
+
+    }
+    public function findById(int $id): Product
+    {
+        return Product::query()->findOrFail($id);
     }
 }
