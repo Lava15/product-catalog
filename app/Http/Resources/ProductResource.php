@@ -23,11 +23,7 @@ class ProductResource extends JsonResource
                 'name' => $this->resource->name,
                 'price' => $this->resource->price,
                 'barcode' => $this->resource->barcode,
-            ],
-            'relationships' => [
-                'category' => CategoryResource::make(
-                      $this->whenLoaded(relationship: 'category')
-                ),
+                'category_id' => $this->resource->category_id,
             ],
         ];
     }

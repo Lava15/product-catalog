@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\Category;
 use App\Responses\ErrorResponse;
 use App\Services\CategoryService;
 use App\Responses\MessageResponse;

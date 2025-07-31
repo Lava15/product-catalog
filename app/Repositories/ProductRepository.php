@@ -4,24 +4,45 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Http\Resources\ProductCollection;
 use App\Models\Product;
 use App\Responses\CollectionResponse;
 use App\Http\Resources\ProductResource;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductRepository
 {
+    protected function applyIncludes(Builder $query): Builder
+    {
+        if (request()->has('include')) {
+            $includes = explode(',', request()->query('include'));
+            $validIncludes = ['category'];
+            $includes = array_intersect($includes, $validIncludes);
+
+            if (!empty($includes)) {
+                $query->with($includes);
+            }
+        }
+        return $query;
+    }
+
     public function getAllProducts(): CollectionResponse
     {
+        $query = $this->applyIncludes($this->query());
         return new CollectionResponse(
-            data: ProductResource::collection(Product::query()->paginate(5)),
+            data: new ProductCollection($query->paginate(5)),
             status: Response::HTTP_OK
         );
-
     }
+
     public function findById(int $id): Product
     {
-        return Product::query()->findOrFail($id);
+        $query = $this->applyIncludes($this->query());
+        return $query->findOrFail($id);
+    }
+    private function query(): Builder
+    {
+        return Product::query();
     }
 }
