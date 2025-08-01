@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Product;
+use App\Jobs\ExportProductsJob;
 use App\Repositories\ProductRepository;
 
 class ProductService
 {
     public function __construct(
         private readonly ProductRepository $productRepository
-    ) {}
+    ) {
+    }
 
     public function createProduct(array $validatedData): Product
     {
@@ -30,7 +32,13 @@ class ProductService
             'price' => $validatedData['price'],
             'barcode' => $validatedData['barcode'] ?? null,
             'category_id' => $validatedData['category_id'] ?? null,
-        ]); 
+        ]);
         return $product;
+    }
+    public function exportToExcel(): string
+    {
+        $fileName = 'products_' . now()->format('Ymd_His') . '.xlsx';
+        ExportProductsJob::dispatch($fileName);
+        return $fileName;
     }
 }

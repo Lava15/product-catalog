@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Http\Resources\ProductCollection;
 use App\Models\Product;
 use App\Responses\CollectionResponse;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,6 +39,19 @@ class ProductRepository
     {
         $query = $this->applyIncludes($this->query());
         return $query->findOrFail($id);
+    }
+    public function getForExport(): array
+    {
+        return Product::with('category')
+            ->get()
+            ->map(function (Product $product) {
+                return [
+                    'name' => $product->name,
+                    'barcode' => $product->barcode,
+                    'price' => $product->price,
+                    'category' => $product->category->name ?? 'Без категории',
+                ];
+            })->toArray();
     }
     private function query(): Builder
     {

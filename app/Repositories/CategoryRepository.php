@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Http\Resources\CategoryCollection;
-use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Responses\CollectionResponse;
 use Illuminate\Database\Eloquent\Builder;

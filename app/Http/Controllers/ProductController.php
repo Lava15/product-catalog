@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\Product;
 use App\Responses\ErrorResponse;
 use App\Services\ProductService;
 use App\Responses\MessageResponse;
@@ -107,6 +106,20 @@ class ProductController extends Controller
             message: 'Product deleted successfully',
             data: null,
             status: Response::HTTP_NO_CONTENT
+        );
+    }
+    public function export(): MessageResponse
+    {
+        $fileName = $this->productService->exportToExcel();
+
+        return new MessageResponse(
+            message: 'Экспорт поставлен в очередь. Файл будет доступен для скачивания по ссылке ниже, когда экспорт завершится.',
+            data: [
+                'file' => $fileName,
+                'download_url' => route('export.download', ['file' => $fileName]),
+                'status_check' => route('export.status', ['file' => $fileName])
+            ],
+            status: Response::HTTP_ACCEPTED
         );
     }
 }
