@@ -37,11 +37,12 @@
    docker exec -it php_app composer install
    docker exec -it php_app php artisan key:generate
    docker exec -it php_app php artisan migrate --seed
+   docker exec -it php_app php artisan queue:listen
    ```
 
 5. Запустите очередь:
    ```bash
-   docker exec -it php_app php artisan queue:listen --tries=3 --timeout=180
+   docker exec -it php_app php artisan queue:listen
    ```
 ---
 
@@ -73,7 +74,7 @@
 
 5. Запустите очередь:
    ```bash
-   php artisan queue:listen --tries=3 --timeout=180
+   php artisan queue:listen
    ```
 
 6. Запустите локальный сервер:
