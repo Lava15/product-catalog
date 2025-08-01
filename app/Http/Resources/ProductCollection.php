@@ -9,7 +9,7 @@ class ProductCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => ProductResource::collection($this->collection),
+            'products' => ProductResource::collection($this->collection),
             'links' => [
                 'first' => $this->url(1),
                 'last' => $this->url($this->lastPage()),

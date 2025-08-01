@@ -25,6 +25,9 @@ class ProductResource extends JsonResource
                 'barcode' => $this->resource->barcode,
                 'category_id' => $this->resource->category_id,
             ],
+            'relationships' => [
+                'category' => new CategoryResource($this->whenLoaded('category')),
+            ],
         ];
     }
 }

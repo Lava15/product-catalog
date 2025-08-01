@@ -9,7 +9,7 @@ class CategoryCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => CategoryResource::collection($this->collection),
+            'categories' => CategoryResource::collection($this->collection),
             'links' => [
                 'first' => $this->url(1),
                 'last' => $this->url($this->lastPage()),
